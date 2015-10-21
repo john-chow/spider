@@ -1,3 +1,9 @@
+""" A spider can be used to snatch content from internet
+
+Typical applications will use 'Crawler' class. The 'Crawler'
+get url and start index as input, and auto forward until URLError
+"""
+
 import urllib.request
 import http
 import threading
@@ -7,6 +13,10 @@ from bs4 import BeautifulSoup
 import pdb
 
 class Crawler(object):
+    """ The real spider class
+
+    kernel function is run loop
+    """
     def __init__(self, base_url, start_index):
         self.base_url = base_url
         self.curr_index = start_index
@@ -33,6 +43,8 @@ class Crawler(object):
 
 
 class Washer(object):
+    """ A class used to transform data
+    """
     _pattern = 'bbs-content'                         #博客内容所在标签的class
     _answer_flag = '-{3}|_{3}|——{3}'
     def pick(self, text):
@@ -49,6 +61,8 @@ class Washer(object):
 
 
 class Storage(object):
+    """ A class response for result storage
+    """
     _instance_lock = threading.Lock()
     _path = '1.txt'
 
@@ -67,7 +81,8 @@ class Storage(object):
                 f.write(rs)
 
 
-base_url = "http://www.tianyatool.com/bbsdoc/post/no05/146711/{}.shtml"
-start_index = 1
-caw = Crawler(base_url, start_index)
+if '__main__' == __name__:
+    base_url = "http://www.tianyatool.com/bbsdoc/post/no05/146711/{}.shtml"
+    start_index = 1
+    caw = Crawler(base_url, start_index)
 
